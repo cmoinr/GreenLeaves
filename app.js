@@ -18,20 +18,20 @@ app.get('/', (req, res) => {
     res.render('index'); // Renderiza la vista index.ejs
 });
 
-app.get('/music', (req, res) => {
-    res.render('music');
+app.get('/aboutus', (req, res) => {
+    res.render('aboutus');
 });
 
-app.get('/programming', (req, res) => {
-  res.render('programming');
+app.get('/benefits', (req, res) => {
+  res.render('benefits');
 });
 
-app.get('/sports', (req, res) => {
-  res.render('sports');
+app.get('/customers', (req, res) => {
+  res.render('customers');
 });
 
-app.get('/aboutme', (req, res) => {
-  res.render('aboutme');
+app.get('/services', (req, res) => {
+  res.render('services');
 });
 
 // Puerto de escucha

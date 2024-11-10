@@ -1,7 +1,7 @@
 body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   text-align: center;
-  background-color: rgb(30, 30, 30);
+  background-color: black;
   padding: 1cm;
   margin: 0.25cm;
   line-height: 1.5;
@@ -9,29 +9,42 @@ body {
 
 h1 {
   text-align: center;
-  color: blanchedalmond;
   font-style: bold;
   margin: 0.005cm;
   font-size: 325%;
+  background: linear-gradient(to left, #46870b, #a3cb2b, #f7fc52);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#reverso {
+  font-style: italic;
+  letter-spacing: 1.5px;
+  background: linear-gradient(to right, #46870b, #a3cb2b, #f7fc52);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 h3 {
+  font-family: "DM Serif Text", serif;
+  font-weight: 400;
+  font-style: bold;
   text-align: center;
-  color: aliceblue;
   margin: 0.020cm;
-  font-size: 190%;
-}
-
-#cs50 {
-  color: blanchedalmond;
+  font-size: 30px;
+  background: linear-gradient(to right, #2f7408, #46870b, #a3cb2b, #f7fc52);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 p {
   text-align: center;
-  color: aliceblue;
-  font-style: italic;
+  font-style: normal;
   margin: 0.005cm;
   font-size: 125%;
+  background: linear-gradient(to right, white, #faff77);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 th, td {
@@ -53,6 +66,7 @@ table {
 #homepage01 {
   position: relative;
   top: 60px;
+  line-height: 3;
 }
 
 footer {
@@ -65,13 +79,14 @@ footer {
 }
 
 #liveToastBtn {
-  background-color: blanchedalmond;
-  color: rgb(30, 30, 30);
-  border: 1px solid blanchedalmond;
+  background: linear-gradient(to right, #46870b, #a3cb2b, #f7fc52);
+  color: black;
+  border: 1px solid #46870b;
   width: auto;
-  position: relative;
-  bottom: -55px;
+  margin-top: 2%;
+  margin-bottom: 1.5%;
   font-size: 100%;
+  font-family: "DM Serif Text", serif;
 }
 
 #liveToastBtn02 {
@@ -210,4 +225,17 @@ footer {
   text-align: center;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+}
+
+#carouselExample {
+  height: 70%;
+  width: 70%;
+  padding-top: 1.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#logo {
+  height: 10%;
+  width: 10%;
 }
