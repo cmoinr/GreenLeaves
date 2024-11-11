@@ -4,7 +4,7 @@ body {
   background-color: black;
   padding: 1cm;
   margin: 0.25cm;
-  line-height: 1.5;
+  
 }
 
 h1 {
@@ -45,6 +45,7 @@ p {
   background: linear-gradient(to right, white, #faff77);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  line-height: 1.5;
 }
 
 th, td {
@@ -249,6 +250,52 @@ footer {
   margin-right: auto;
 }
 
-img {
+.main_img {
   border-radius: 20px;
+}
+
+.card {
+  background: linear-gradient(to bottom, #2f7408, #46870b);
+}
+
+.card-text {
+  text-align: center;
+  font-style: normal;
+  margin: 0.005cm;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card-title {
+  text-align: center;
+  font-style: normal;
+  color: black;
+  background-color: white;
+  border-radius: 7px;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn {
+  background: linear-gradient(to bottom, #a3cb2b, #f7fc52);
+  color: black;
+  border: 1px solid #46870b;
+  width: auto;
+}
+
+#service01 {
+  margin-left: 250px;
+  margin-right: auto;
+}
+
+#service02 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#service03 {
+  margin-left: auto;
+  margin-right: 250px;
 }
