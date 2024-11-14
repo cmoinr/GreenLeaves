@@ -83,8 +83,10 @@ table {
 }
 
 #homepage01 {
-  position: relative;
-  top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-top: 60px;
   line-height: 3;
 }
 
@@ -122,10 +124,12 @@ footer {
   background-color: linear-gradient(to right, #a3cb2b, #f7fc52);
   color: rgb(30, 30, 30);
   border: 1px solid #46870b;
-  width: auto;
-  margin-top: 3.5%;
-  margin-bottom: 1.5%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1%;
+  margin-bottom: 1%;
   font-size: 100%;
+  width: auto;
 }
 
 .custom-popover {
@@ -262,8 +266,10 @@ footer {
 .carousel-caption {
   border-radius: 15px;
   color: white;
-  background-color: rgb(0, 0, 0, 0.55);
-  width: 75%;
+  background-color: rgb(0, 0, 0, 0.45);
+  height: auto;
+  width: auto;
+  text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
@@ -357,10 +363,14 @@ footer {
 }
 
 .aboutus01 {
-  padding-top: 5%;
-  padding-bottom: 5%;
-  width: auto;
+  /* padding-top: 5%;
+  padding-bottom: 5%; */
+  width: 50%;
+  height: 50%;
+  margin-top: 5px;
+  margin-bottom: 5px;
   margin-left: auto;
   margin-right: auto;
-  border-radius: 35px;
+  border: 2px solid #a3cb2b;
+  border-radius: 15px;
 }
