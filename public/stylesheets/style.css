@@ -328,23 +328,31 @@ footer {
 }
 
 #services {
-  padding-top: 5%;
-  padding-bottom: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   margin-left: auto;
   margin-right: auto;
 }
 
 #customers_img01 {
-  padding-top: 5%;
-  padding-bottom: 1%;
+  margin-top: 5%;
+  margin-bottom: 1%;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
 }
 
 #customers_img02 {
-  padding-top: 1%;
-  padding-bottom: 5%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#customers_img03 {
+  margin-top: 1%;
+  margin-bottom: 5%;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -354,12 +362,14 @@ footer {
   background: linear-gradient(to bottom, #a3cb2b, #f7fc52);
   color: rgb(30, 30, 30);
   width: auto;
+  font-size: 15px;
 }
 
 #cus_text02 {
   background: transparent;
   color: white;
-  width: auto; 
+  width: auto;
+  font-size: 15px;
 }
 
 .aboutus01 {
