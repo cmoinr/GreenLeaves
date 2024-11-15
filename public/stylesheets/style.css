@@ -4,7 +4,6 @@ body {
   background-color: black;
   padding: 1cm;
   margin: 0.25cm;
-  
 }
 
 h1 {
@@ -279,7 +278,7 @@ footer {
 }
 
 .card {
-  background: linear-gradient(to bottom, #2f7408, #46870b);
+  background: linear-gradient(to bottom, #2f550c, #2f7408, #46870b);
 }
 
 .card-text {
@@ -293,13 +292,11 @@ footer {
 
 .card-title {
   text-align: center;
-  font-style: normal;
-  color: black;
+  font-style: bold;
+  color: #2f550c;
   background-color: white;
   border-radius: 7px;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
+  width: auto;
 }
 
 .btn {
@@ -409,5 +406,27 @@ footer {
   .carousel-caption {
     height: 70%;
     width: 70%;
+  }
+
+  h1 {
+    font-size: 250%;
+  }
+
+  #reverso {
+    font-size: 250%;
+  }
+
+  .rounded {
+    margin-left: 45%;
+    margin-right: auto;
+    margin-top: 3%;
+  }
+
+  .nav {
+    font-size: 77%;
+  }
+
+  #btn_service {
+    margin-top: 3%;
   }
 }
