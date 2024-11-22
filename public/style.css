@@ -99,13 +99,25 @@ footer {
   margin-top: 70px;
 }
 
+#contact_form {
+  background-image: url("https://images.pexels.com/photos/2558460/pexels-photo-2558460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  border: 1px solid #f7fc52;
+  height: 50%;
+  width: 46.5%;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+}
+
 #liveToastBtn {
   background: linear-gradient(to right, #46870b, #a3cb2b, #f7fc52);
   color: black;
   border: 1px solid #46870b;
   width: auto;
   margin-top: 2%;
-  margin-bottom: 1.5%;
+  margin-bottom: 4.5%;
   font-size: 100%;
 }
 
@@ -139,6 +151,42 @@ footer {
   --bs-popover-body-color: rgb(30, 30, 30);
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: .5rem;
+}
+
+input {
+  background-color: black;
+  outline: none;
+  border: 1px solid #f7fc52;
+  border-radius: 5px;
+  color: black;
+  width: 250px;
+  height: 35px;
+  transition-duration: 0.5s;
+}
+
+input:hover {
+  border: 1px solid #f7fc52;
+  background-color: #f7fc52;
+}
+
+input::placeholder {
+  color: #f7fc52;
+}
+
+.btn {
+  background: transparent;
+  color: #f7fc52;
+  border: 1px solid #f7fc52;
+  width: auto;
+  margin-top: 3%;
+  margin-bottom: 10%;
+  transition-duration: 0.5s;
+}
+
+.btn:hover {
+  border: 1px solid #f7fc52;
+  background-color: #f7fc52;
+  color: black;
 }
 
 /* FROM bootstrap */
@@ -296,13 +344,6 @@ footer {
   color: #2f550c;
   background-color: white;
   border-radius: 7px;
-  width: auto;
-}
-
-.btn {
-  background: linear-gradient(to bottom, #a3cb2b, #f7fc52);
-  color: black;
-  border: 1px solid #46870b;
   width: auto;
 }
 

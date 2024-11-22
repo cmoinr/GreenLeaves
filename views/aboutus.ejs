@@ -14,14 +14,10 @@
 
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
           <script>
-               document.addEventListener("DOMContentLoaded", function()
-               {
-                    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-                    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-               });
+               
           </script>
 
-          <title>Nosotros | GreenLeaves</title>
+          <title>Contacto | GreenLeaves</title>
      </head>
      <body>
           <div class="cover-container d-flex mx-auto flex-column">
@@ -33,35 +29,30 @@
                       <a class="nav-link py-1 px-0" href="/services">Servicios</a>
                       <a class="nav-link py-1 px-0" href="/benefits">Beneficios</a>
                       <a class="nav-link py-1 px-0" href="/customers">Clientes</a>
-                      <a class="nav-link py-1 px-0 active" href="/aboutus">Nosotros</a>
+                      <a class="nav-link py-1 px-0 active" href="/aboutus">Contacto</a>
                     </nav>
                </header>
           </div>
 
           <div id="homepage01">
-               <h1>Desde 1990,</h1>
-               <img src="https://images.pexels.com/photos/14688972/pexels-photo-14688972.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-               class="aboutus01"
-               alt="001">
-               <p>nos hemos dedicado a la creacion de espacios naturales encantadores,</p>
-               <p>a reinventar la 'jardinería' con su infinidad de técnicas y</p>
-               <p>a cautivar cada mirada que detalla y se sumerge en nuestros ambientes.</p>
-               <img src="https://images.pexels.com/photos/208321/pexels-photo-208321.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-               class="aboutus01"
-               alt="002">
-               <h1 id="reverso">'Tu jardín, nuestra naturaleza'</h1>
-               <p>porque así lo hemos demostrado y así lo sentimos.</p>
-               <img src="https://images.pexels.com/photos/15975968/pexels-photo-15975968/free-photo-of-ciudad-paisaje-naturaleza-rojo.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-               class="aboutus01"
-               alt="003">
-               <p>Carlos, el fundador de este proyecto, a menudo cuenta esta inspiradora anécdota:</p>
-               <div>
-                    <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-bs-toggle="popover"
-                    data-bs-trigger="focus" data-bs-title="Desde pequeño..."
-                    data-bs-content="'me gustaba vivir alrededor de la naturaleza, del aire puro, y siempre trataba de cuidar las plantas y conservar la limpieza en el patio de mi hogar. Años después, la idea nació y el proyecto lo llevamos a cabo, con la misma pasión que cuando lo hacía de niño! Siempre que contagiemos de buenos sentimientos lo que hacemos, los resultados nos asombrarán'"
-                    data-bs-custom-class="custom-popover"
-                    id="liveToastBtn03">"Siempre persevera!"</a>
-               </div>
+               <h1>Dispuestos a escucharte</h1>
+               <p>Cualquier opinión, duda o mensaje, estamos para ti.</p>  
+
+               <form id="contact_form" action="/aboutus" method="post">
+                    <div class="mb-3">
+                         <input autocomplete="off" class="shaded-input" name="names" placeholder="E-mail" type="text">
+                    </div>
+     
+                    <div class="mb-3">
+                         <input autocomplete="off" class="shaded-input" name="surnames" placeholder="Nombre" type="text">
+                    </div>
+
+                    <div class="mb-3">
+                         <input autocomplete="off" class="shaded-input" name="surnames" placeholder="Mensaje" type="text">
+                    </div>
+     
+                    <button class="btn" type="submit">Enviar</button>
+               </form>
 
                <footer>
                     <div>                  
@@ -80,7 +71,7 @@
                          <h6>   +58 412-5642771</h6>
                     </div>
                     
-                    © 2024 by <a href="https://www.instagram.com/cmoinr/" class="text-white">Carlos Nieves</a> | Venezuela. 
+                    © 2024 Developed by <a href="https://www.instagram.com/cmoinr/" class="text-white">Carlos Nieves</a> | Venezuela. 
                          
                </footer>
           </div>
