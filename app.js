@@ -18,8 +18,8 @@ app.get('/', (req, res) => {
     res.render('index'); // Renderiza la vista index.ejs
 });
 
-app.get('/aboutus', (req, res) => {
-    res.render('aboutus');
+app.get('/contact', (req, res) => {
+    res.render('contact');
 });
 
 app.get('/benefits', (req, res) => {
