@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const contactosController = require('./contacts_controller');
 
 const app = express();
 
@@ -12,14 +13,12 @@ app.set('view engine', 'ejs');
 const staticPath = process.env.STATIC_PATH || 'public';
 
 app.use(express.static(path.join(__dirname, staticPath)));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Rutas
 app.get('/', (req, res) => {
     res.render('index'); // Renderiza la vista index.ejs
-});
-
-app.get('/contact', (req, res) => {
-    res.render('contact');
 });
 
 app.get('/benefits', (req, res) => {
@@ -32,6 +31,16 @@ app.get('/customers', (req, res) => {
 
 app.get('/services', (req, res) => {
   res.render('services');
+});
+
+app.get('/contact', (req, res) => {
+  res.render('contact');
+});
+
+app.use('/contact', contactosController);
+
+app.get('/thanks', (req, res) => {
+  res.send('¡Gracias por tu mensaje!');
 });
 
 // Puerto de escucha

@@ -169,15 +169,10 @@ input {
   outline: none;
   border: 1px solid #f7fc52;
   border-radius: 5px;
-  color: black;
+  color: #f7fc52;
   width: 250px;
   height: 35px;
   transition-duration: 0.5s;
-}
-
-input:hover {
-  border: 1px solid #f7fc52;
-  background-color: #f7fc52;
 }
 
 input::placeholder {
