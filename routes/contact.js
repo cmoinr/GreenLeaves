@@ -7,6 +7,7 @@ router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
+// ContactsModel
 class ContactsModel {
     constructor() {
         // Conexion a la base de datos
@@ -25,7 +26,7 @@ class ContactsModel {
             });
         });
     }
-    // Recuperar los datos guardados de la base de datos
+    // Recuperar los datos guardados en la base de datos
     async get_info() {
       return new Promise((resolve, reject) => {
         this.db.all('SELECT * FROM contacts', (err, rows) => {
@@ -39,6 +40,7 @@ class ContactsModel {
     }
 }
 
+// Acceso a la clase 'ContactsModel'
 const contactosModel = new ContactsModel();
 
 // ContactsController
@@ -64,15 +66,15 @@ router.post('/send', async (req, res) => {
 
 });
 
-// router.listen(() => {
-//     console.log("Database:\n");
-//     contactosModel.get_info()
-//       .then(contacts => {
-//         console.log(contacts);
-//       })
-//       .catch(err => {
-//         console.error('Error retrieving contacts:', err);
-//       });
-// });
+// Muestra la informacion guardada en la base de datos
+contactosModel.get_info()
+    .then(contacts => {
+        console.log("Database:\n");
+        console.log(contacts);
+    })
+    .catch(err => {
+        console.error('Error retrieving contacts:', err);
+    });
+
 
 module.exports = router;

@@ -17,7 +17,9 @@ app.use(express.static(path.join(__dirname, staticPath)));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Rutas/secciones de la pagina web
+// *** Rutas/secciones de la pagina web *** //
+
+// Formulario, ContactsController & ContactsModel
 app.use('/', contactRouter)
 
 // Home
