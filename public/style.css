@@ -204,8 +204,9 @@ input::placeholder {
   }
 
   input {
-    width: 150px;
-    height: 35px;
+    margin-top: 15px;
+    width: 80%;
+    height: auto;
   }
 
   #btn_form {
