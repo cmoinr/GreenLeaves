@@ -45,7 +45,9 @@
           <div id="homepage01">
                <h1>Dispuestos a escucharte</h1>
                <p>Cualquier opinión, duda o mensaje, estamos para ti.</p>  
-
+               
+               <!-- <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcshKsqAAAAAEXYicq12i1lIEz_3ohMNFxxfshx"></script> -->
+               <script src="https://www.google.com/recaptcha/api.js?render=6LcshKsqAAAAAEXYicq12i1lIEz_3ohMNFxxfshx"></script>
                <form id="contact_form" action="/send" method="POST">
                     <input type="hidden" id="userIP" name="userIP">
                     <div class="mb-3">
@@ -60,7 +62,7 @@
                          <input autocomplete="off" class="shaded-input" id="message" name="message" placeholder="Mensaje" type="text" required>
                     </div>
      
-                    <button class="btn" id="btn_form" type="submit">Enviar</button>
+                    <button class="btn" id="btn_form" type="submit" onclick="gtag('event', 'click_button', {'event_category': 'button', 'event_label': 'send_form'});">Enviar</button>
                </form>
 
                <footer>
@@ -93,6 +95,15 @@
             gtag('js', new Date());
 
             gtag('config', 'G-JREMD85HCY');
+          </script>
+
+          <!-- reCAPTCHA -->
+          <script>
+               grecaptcha.ready(function() {
+                    grecaptcha.execute('6LcshKsqAAAAAEXYicq12i1lIEz_3ohMNFxxfshx', {action: 'submit'}).then(function(token) {
+                         document.getElementById('contact_form').submit();
+                    });
+               });
           </script>
      </body>
 </html>

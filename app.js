@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const session = require('express-session')
 
 const app = express();
 
@@ -16,6 +17,11 @@ const staticPath = process.env.STATIC_PATH || 'public';
 app.use(express.static(path.join(__dirname, staticPath)));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(session({
+  secret: 'tu_secreto_fuerte',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // *** Rutas/secciones de la pagina web *** //
 

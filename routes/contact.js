@@ -47,7 +47,7 @@ const contactosModel = new ContactsModel();
 // ContactsController
 router.post('/send', async (req, res) => {
     // Datos obtenidos del formulario
-    const { email, name, message, userIP } = req.body;
+    const { email, name, message, userIP, token } = req.body;
     const date = new Date().toISOString();
 
     // Uso de la API [ipstack.com] (geolocalización por IP)
@@ -59,16 +59,27 @@ router.post('/send', async (req, res) => {
         return res.status(400).send('Por favor, completa todos los campos');
     }
 
-    try {
-        // Llamar a la clase ContactosModel para guardar los datos
-        await contactosModel.save(email, name, message, userIP, date, country);
-        // Redireccionar al usuario a una página de confirmación o mostrar un mensaje de éxito
-        res.redirect('/thanks');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error al guardar los datos');
-    }
+    // Verificar el token de reCAPTCHA
+    const captcha = await axios.post('https://www.google.com/recaptcha/api/siteverify', {
+        secret: '6LcshKsqAAAAAEXYicq12i1lIEz_3ohMNFxxfshx',
+        response: token
+    });
 
+    if (captcha.data.success) {
+        // Si el token es válido, procesar los datos del formulario
+        try {
+            // Llamar a la clase ContactosModel para guardar los datos
+            await contactosModel.save(email, name, message, userIP, date, country);
+            // Redireccionar al usuario a una página de confirmación o mostrar un mensaje de éxito
+            res.redirect('/thanks');
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al guardar los datos');
+        }
+    } else {
+        console.error('Formulario inválido');
+        res.status(500).send('Error al enviar el formulario');
+    }
 });
 
 // Muestra la informacion guardada en la base de datos
