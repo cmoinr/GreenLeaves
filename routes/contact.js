@@ -8,6 +8,45 @@ router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
+// Funcion para verificar el token (reCAPTCHA)
+const verifyCaptcha = async (token) => {
+    const secretKey = '6LcLbK0qAAAAAA1QshbAsEbTSTe-aFh8Lkt856v8';
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`; // ?secret=${secretKey}&response=${token}
+
+    try {
+        const response = await axios.post(verifyUrl, {
+            secret: secretKey,
+            response: token
+        });
+
+        if (response.data.success) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error al verificar el reCAPTCHA:', error);
+        return false;
+    }
+
+    // request(verifyUrl, (err, response, body) => {
+    //     if(err) {
+    //         console.log(err);
+    //     }
+
+    //     body = JSON.parse(body);
+
+    //     if(!body.success && body.success === undefined) {
+    //         return res.json({"success":false, "msg":"captcha verification failed"});
+    //     }
+    //     else if(body.score < 0.5) {
+    //         return res.json({"success":false, "msg":"you might be a bot, sorry!", "score": body.score});
+    //     }        
+    //     // return json message or continue with your function. Example: loading new page, ect
+    //     return res.json({"success":true, "msg":"captcha verification passed", "score": body.score});
+    // })
+};
+
 // ContactsModel
 class ContactsModel {
     constructor() {
@@ -47,40 +86,42 @@ const contactosModel = new ContactsModel();
 // ContactsController
 router.post('/send', async (req, res) => {
     // Datos obtenidos del formulario
-    const { email, name, message, userIP, token } = req.body;
+    const { email, name, message, userIP, btn_form } = req.body;
     const date = new Date().toISOString();
 
+    console.log(req.body)
+    
     // Uso de la API [ipstack.com] (geolocalización por IP)
     const response = await axios.get(`http://api.ipstack.com/${userIP}?access_key=f8ff13db27bbc910d87fe504f4c6260e`);
     const country = response.data.country_name;
+
+    // Validar el token de reCAPTCHA
+    if(!btn_form) {
+        console.log("err");
+        return res.json({"success":false, "msg":"Capctha is not checked"});  
+    }
 
     // Validar los datos del formulario antes de guardarlos
     if (!email || !name || !message) {
         return res.status(400).send('Por favor, completa todos los campos');
     }
 
-    // Verificar el token de reCAPTCHA
-    const captcha = await axios.post('https://www.google.com/recaptcha/api/siteverify', {
-        secret: '6LcshKsqAAAAAEXYicq12i1lIEz_3ohMNFxxfshx',
-        response: token
-    });
-
-    if (captcha.data.success) {
-        // Si el token es válido, procesar los datos del formulario
+    if (await verifyCaptcha(btn_form)) {
+        // Procesar los datos del formulario
         try {
             // Llamar a la clase ContactosModel para guardar los datos
             await contactosModel.save(email, name, message, userIP, date, country);
             // Redireccionar al usuario a una página de confirmación o mostrar un mensaje de éxito
-            res.redirect('/thanks');
+            res.redirect('/thanks');     
         } catch (error) {
             console.error(error);
             res.status(500).send('Error al guardar los datos');
-        }
+        }   
     } else {
-        console.error('Formulario inválido');
-        res.status(500).send('Error al enviar el formulario');
+        res.status(400).send('Por favor, completa el reCAPTCHA');
     }
 });
+
 
 // Muestra la informacion guardada en la base de datos
 contactosModel.get_info()
