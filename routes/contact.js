@@ -2,28 +2,75 @@ const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const axios = require('axios');
+const nodemailer = require('nodemailer');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const OAuth2 = require('nodemailer-oauth2');
+
+// testing this
+const createAssessment = require('./recaptcha');
 
 // Contacto (formulario)
 router.get('/contact', (req, res) => {
     res.render('contact');
 });
 
+passport.use(new GoogleStrategy({
+    clientID: "48331960941-dcevsjrp1m86ete3at04fiqc24hdl40s.apps.googleusercontent.com",
+    clientSecret: "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",
+    callbackURL: "http://localhost:2700/send"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    // Aquí puedes guardar la información del usuario en tu base de datos, si es necesario
+    return done(null, profile);
+  }
+));
+
+let oauth2 = new OAuth2({
+    user: 'cmoinieves@gmail.com', // Utiliza el correo asociado a tu proyecto de GCP
+    clientId: "48331960941-dcevsjrp1m86ete3at04fiqc24hdl40s.apps.googleusercontent.com",
+    clientSecret: "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",
+    refreshToken: REFRESH_TOKEN, // Obtendrás este token después del primer inicio de sesión
+    accessTokenUri: 'https://oauth2.googleapis.com/token'
+});
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        type: 'OAuth2',
+        user: 'cmoinieves@gmail.com',
+        clientId: "48331960941-dcevsjrp1m86ete3at04fiqc24hdl40s.apps.googleusercontent.com",
+        clientSecret: "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",
+        refreshToken: REFRESH_TOKEN,
+        accessToken: oauth2.accessToken
+    }
+});
+
+// const transporter = nodemailer.createTransport({
+//     host: 'smtp.gmail.com',
+//     port: 587,
+//     secure: false,
+//     auth: {
+//         user: 'cmoinr@hotmail.com',
+//         pass: 'hell0Moises-'
+//     }
+// });
+
 // Funcion para verificar el token (reCAPTCHA)
 const verifyCaptcha = async (token) => {
-    const secretKey = '6LcLbK0qAAAAAA1QshbAsEbTSTe-aFh8Lkt856v8';
+    const secretKey = '6LfnUq0qAAAAALB3Y3DtLjM8YoLFXuO4beUl0A1L';
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify`; // ?secret=${secretKey}&response=${token}
 
     try {
         const response = await axios.post(verifyUrl, {
             secret: secretKey,
-            response: token
+            response: token,
         });
 
-        if (response.data.success) {
+        if (!response.data.success) {
             return true;
-        } else {
-            return false;
         }
+
     } catch (error) {
         console.error('Error al verificar el reCAPTCHA:', error);
         return false;
@@ -86,19 +133,16 @@ const contactosModel = new ContactsModel();
 // ContactsController
 router.post('/send', async (req, res) => {
     // Datos obtenidos del formulario
-    const { email, name, message, userIP, btn_form } = req.body;
+    const { email, name, message, userIP, 'g-recaptcha-response': token } = req.body;
     const date = new Date().toISOString();
 
-    console.log(req.body)
-    
     // Uso de la API [ipstack.com] (geolocalización por IP)
     const response = await axios.get(`http://api.ipstack.com/${userIP}?access_key=f8ff13db27bbc910d87fe504f4c6260e`);
     const country = response.data.country_name;
 
     // Validar el token de reCAPTCHA
-    if(!btn_form) {
-        console.log("err");
-        return res.json({"success":false, "msg":"Capctha is not checked"});  
+    if(!token) {
+        return res.status(400).send('reCAPTCHA error');
     }
 
     // Validar los datos del formulario antes de guardarlos
@@ -106,20 +150,64 @@ router.post('/send', async (req, res) => {
         return res.status(400).send('Por favor, completa todos los campos');
     }
 
-    if (await verifyCaptcha(btn_form)) {
-        // Procesar los datos del formulario
-        try {
+    // Construccion del correo electronico
+    const mailData = {
+        from: 'GreenLeaves <cmoinieves@gmail.com>',
+        to: ['programacion2ais@dispostable.com'],
+        subject: 'GreenLeaves | Formulario de contacto',
+        text: `
+            Nombre: ${name}
+            Correo: ${email}
+            Comentario: ${message}
+            IP: ${userIP}
+            País: ${country}
+            Fecha/Hora: ${date}
+        `
+    };
+
+    try {
+        // const verificationResult = await createAssessment({
+        //     token,
+        //     recaptchaAction: 'submit',
+        //     // ... otros parámetros si es necesario
+        // });
+
+        if (await verifyCaptcha(token)) { // verificationResult.success || 
+            // El token es válido, procesar el formulario
+
             // Llamar a la clase ContactosModel para guardar los datos
             await contactosModel.save(email, name, message, userIP, date, country);
+
+            // Envio del correo electronico
+            transporter.sendMail(mailData, (error, info) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email enviado: ' + info.response);
+                }
+            });
+
             // Redireccionar al usuario a una página de confirmación o mostrar un mensaje de éxito
-            res.redirect('/thanks');     
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('Error al guardar los datos');
-        }   
-    } else {
-        res.status(400).send('Por favor, completa el reCAPTCHA');
+            res.redirect('/thanks');
+        } else {
+            res.status(400).send('Error al verificar el reCAPTCHA');
+        }
+    } catch (error) {
+        console.error('Error al verificar el reCAPTCHA:', error);
+        res.status(500).send('Error del servidor');
     }
+
+    // if (await verifyCaptcha(token)) {
+    //     // Procesar los datos del formulario
+    //     try {
+                 
+    //     } catch (error) {
+    //         console.error(error);
+    //         res.status(500).send('Error al guardar los datos');
+    //     }   
+    // } else {
+    //     res.status(400).send('Por favor, completa el reCAPTCHA');
+    // }
 });
 
 

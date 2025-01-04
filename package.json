@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@google-cloud/recaptcha-enterprise": "^5.13.0",
     "axios": "^1.7.9",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -14,6 +15,9 @@
     "express-session": "^1.18.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "nodemailer": "^6.9.16",
+    "passport": "^0.7.0",
+    "passport-oauth2": "^1.8.0",
     "public-ip": "^7.0.1",
     "request": "^2.88.2",
     "sqlite3": "^5.1.7"
