@@ -185,7 +185,7 @@ input::placeholder {
   border: 1px solid #f7fc52;
   border-radius: 5px;
   width: auto;
-  margin-top: 0.5%;
+  margin-top: 4.5%;
   margin-bottom: 4.5%;
   transition-duration: 0.5s;
   font-size: 100%;
@@ -195,6 +195,15 @@ input::placeholder {
   border: 1px solid #f7fc52;
   background-color: #f7fc52;
   color: black;
+}
+
+#g-recaptcha {
+  margin-left: 26%;
+  margin-right: auto;
+  height: auto;
+  width: auto;
+  transform: scale(0.80);
+  transform-origin: 0 0;
 }
 
 @media only screen and (max-width: 480px) {
@@ -213,6 +222,15 @@ input::placeholder {
     width: auto;
     height: auto;
     margin-bottom: 10%;
+  }
+
+  #g-recaptcha {
+    margin-left: 12%;
+    margin-right: auto;
+    margin-top: 3%;
+    margin-bottom: 0%;
+    transform: scale(0.70);
+    transform-origin: 0 0;
   }
 }
 /* CONTACT FORM */
