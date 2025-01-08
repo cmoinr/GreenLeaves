@@ -1,0 +1,10 @@
+{
+    "service": "gmail",
+    "auth": {
+        "type": "OAuth2",            
+        "user": "cmoinieves@gmail.com",
+        "clientId": "48331960941-dcevsjrp1m86ete3at04fiqc24hdl40s.apps.googleusercontent.com",
+        "clientSecret": "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",
+        "refreshToken": "1//04Spm5msQhm3CCgYIARAAGAQSNwF-L9Irf--Ov23XgGXQp9_PxJREOrbXJEcj42S1r0M6LbfET4w_s_Ltg5irhHDvEks7K1KTDxg"
+    }
+}

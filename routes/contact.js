@@ -3,6 +3,11 @@ const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const axios = require('axios');
 const nodemailer = require('nodemailer');
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const { DateTime } = require('luxon');
+
+const accountTransport = require("./account_transport.json");
 
 // Contacto (formulario)
 router.get('/contact', (req, res) => {
@@ -26,42 +31,57 @@ const verifyCaptcha = async (token, ip) => {
     }
 };
 
-// Funcion para el envio del correo electronico
-const sendEmail = async (name, email, message, userIP, country, date) => {    
-    // Configurar el transporte del correo electronico
-    const transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-          user: "cmoinieves@gmail.com",
-          pass: "hell0Moises-"
+// Configurar el transporte del correo electronico
+const mail_rover = async (callback) => {
+    const oauth2Client = new OAuth2(
+        accountTransport.auth.clientId,
+        accountTransport.auth.clientSecret,
+        "https://developers.google.com/oauthplayground",
+    );
+    oauth2Client.setCredentials({
+        refresh_token: accountTransport.auth.refreshToken,
+        tls: {
+            rejectUnauthorized: false
         }
-      });
+    });
+    oauth2Client.getAccessToken((err, token) => {
+        if (err)
+            return console.log(err);;
+        accountTransport.auth.accessToken = token;
+        callback(nodemailer.createTransport(accountTransport));
+    });
+};
 
-    // Construccion del correo electronico
-    const mailData = {
-        from: 'cmoinieves@gmail.com',
-        to: ['programacion2ais@dispostable.com', 'cmoinr@hotmail.com'],
-        subject: 'GreenLeaves | Formulario de contacto',
-        text: `
-            Nombre:     ${name}
-            Correo:     ${email}
-            Comentario: ${message}
-            IP:         ${userIP}
-            País:       ${country}
-            Fecha/Hora: ${date}
-        `
-    };
-
-    // Envio del correo electronico   
-    transporter.sendMail(mailData, (error, info) => {
-        if (error) {
-            console.error('Error al enviar el correo electrónico:', error);
-            return false;
-        } else {
-            console.log('Correo electrónico enviado:', info.response);
-            return true;
-        }         
-    })
+// Funcion para el envio del correo electronico
+const sendEmail = async (name, email, message, userIP, country, date) => {
+    return new Promise((resolve, reject) => {
+        mail_rover(async (transporter) => {
+            const formattedDate = DateTime.fromISO(date) 
+            .setZone('America/Caracas') 
+            .toFormat('dd/MM/yyyy HH:mm:ss');
+            
+            try {
+                const info = await transporter.sendMail({
+                    from: 'GreenLeaves <cmoinieves@gmail.com>',
+                    to: ['programacion2ais@dispostable.com', 'nieves.carlos5a@gmail.com'],
+                    subject: 'GreenLeaves | Formulario de contacto',
+                    text: `
+                    Nombre: ${name}
+                    Correo: ${email}
+                    Comentario: ${message}
+                    IP: ${userIP}
+                    País: ${country}
+                    Fecha/Hora: ${formattedDate}
+                    `
+                });
+                console.log('Mensaje enviado:', info.messageId);
+                resolve(info);
+            } catch (error) {
+                console.error('Error al enviar el correo:', error);
+                reject(error);
+            }
+        });
+    });
 };
 
 // ContactsModel
@@ -107,7 +127,7 @@ router.post('/send', async (req, res) => {
     const date = new Date().toISOString();
 
     // Uso de la API [ipstack.com] (geolocalización por IP)
-    const response = await axios.get(`http://api.ipstack.com/${userIP}?access_key=f8ff13db27bbc910d87fe504f4c6260e`);
+    const response = await axios.get(`http://api.ipstack.com/${userIP}?access_key=d82abc4be5fe7e23f8cc7bcb0cca65ee`);
     const country = response.data.country_name;
 
     // Validar los datos del formulario antes de guardarlos
@@ -116,20 +136,25 @@ router.post('/send', async (req, res) => {
     }
 
     // Verificar la validez del token (reCAPTCHA)
-    if (verifyCaptcha(token, userIP)) {
+    if (verifyCaptcha(token, userIP)) {       
+        // Envio del correo electronico
+        sendEmail(name, email, message, userIP, country, date)
+        .then(async (info) => {
+            console.log('Mail sent:', info);
 
-        // Verificar el envio del correo electronico
-        if (sendEmail(name, email, message, userIP, country, date)) {
-
-            // Llamar a la clase ContactosModel para guardar los datos
-            await contactosModel.save(email, name, message, userIP, date, country);
-
-            // Redireccionar al usuario a una página de confirmación o mostrar un mensaje de éxito
-            res.redirect('/thanks');
-
-        } else {
-            res.status(400).send('Error Email: no se pudo enviar');
-        }
+            // Si el correo se envió correctamente...
+            try {
+                // Llamar a la clase ContactosModel para guardar los datos
+                await contactosModel.save(email, name, message, userIP, date, country);
+                // Redireccionar al usuario a una página de confirmación o mostrar un mensaje de éxito
+                res.redirect('/thanks');
+            } catch (error) {
+                console.error('Error al guardar los datos:', error);
+            }
+        })
+        .catch(error => {
+            console.error('Mail error:', error);
+        });
     } else {
         res.status(400).send('reCAPTCHA: error de validacion');
     }
