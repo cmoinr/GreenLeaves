@@ -28,7 +28,12 @@ app.use('/', contactRouter)
 
 // Home
 app.get('/', (req, res) => {
-    res.render('index'); // Renderiza la vista index.ejs
+    res.render('index');
+});
+
+// Ubicación
+app.get('/location', (req, res) => {
+  res.render('location');
 });
 
 // Beneficios

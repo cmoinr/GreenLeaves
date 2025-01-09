@@ -510,10 +510,14 @@ input::placeholder {
   }
 
   .nav {
-    font-size: 77%;
+    font-size: 71.5%;
   }
 
   #btn_service {
     margin-top: 3%;
+  }
+
+  a {
+    text-decoration: none;
   }
 }

@@ -6,8 +6,18 @@ const nodemailer = require('nodemailer');
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const { DateTime } = require('luxon');
+require('dotenv').config();
 
-const accountTransport = require("./account_transport.json");
+const accountTransport = { // require("./account_transport.json");
+    service: "gmail",
+    auth: {
+        type: "OAuth2",            
+        user: process.env.MAIN_EMAIL,
+        clientId: process.env.CLIENT_ID_OAUTH,
+        clientSecret: process.env.CLIENT_SECRET_OAUTH,
+        refreshToken: process.env.REFRESH_TOKEN_OAUTH
+    }
+}
 
 // Contacto (formulario)
 router.get('/contact', (req, res) => {
@@ -16,7 +26,7 @@ router.get('/contact', (req, res) => {
 
 // Funcion para verificar el token (reCAPTCHA)
 const verifyCaptcha = async (token, ip) => {
-    const secretKey = '6Let8K8qAAAAANUHKjjIg1SgDjrQGpY-Xrx0kKj8';
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     const verify = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}&remoteip=${ip}`;
 
     try {
@@ -33,6 +43,7 @@ const verifyCaptcha = async (token, ip) => {
 
 // Configurar el transporte del correo electronico
 const mail_rover = async (callback) => {
+
     const oauth2Client = new OAuth2(
         accountTransport.auth.clientId,
         accountTransport.auth.clientSecret,
@@ -62,7 +73,7 @@ const sendEmail = async (name, email, message, userIP, country, date) => {
             
             try {
                 const info = await transporter.sendMail({
-                    from: 'GreenLeaves <cmoinieves@gmail.com>',
+                    from: `GreenLeaves <${process.env.MAIN_EMAIL}>`,
                     to: ['programacion2ais@dispostable.com', 'nieves.carlos5a@gmail.com'],
                     subject: 'GreenLeaves | Formulario de contacto',
                     text: `
@@ -127,7 +138,7 @@ router.post('/send', async (req, res) => {
     const date = new Date().toISOString();
 
     // Uso de la API [ipstack.com] (geolocalización por IP)
-    const response = await axios.get(`http://api.ipstack.com/${userIP}?access_key=d82abc4be5fe7e23f8cc7bcb0cca65ee`);
+    const response = await axios.get(`http://api.ipstack.com/${userIP}?access_key=${process.env.IPSTACK_ACCESS_KEY}`);
     const country = response.data.country_name;
 
     // Validar los datos del formulario antes de guardarlos
