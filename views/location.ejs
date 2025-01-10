@@ -12,29 +12,11 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
 
+        <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmgZcjX8yFgVNtzL5iRpWlyOKlnBi94Po&callback=console.debug&libraries=maps,marker,core&v=beta"></script>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-        <script>
-          document.addEventListener("DOMContentLoaded", function()
-          {
-              const toastTrigger = document.getElementById('liveToastBtn')
-              const toastLiveExample = document.getElementById('liveToast')
-              if (toastTrigger) {
-                toastTrigger.addEventListener('click', () => {
-                  const toast = new bootstrap.Toast(toastLiveExample)
 
-                  toast.show()
-                })
-              }
-          });
-          
-          document.addEventListener("DOMContentLoaded", function()
-          {
-              const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-              const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-          });
-        </script>
-
-        <title>Home | GreenLeaves</title>
+        <title>Ubicación | GreenLeaves</title>
     </head>
     <body>
         <div class="cover-container d-flex mx-auto flex-column">
@@ -54,88 +36,24 @@
         </div>   
 
         <div id="homepage01">
-            <h1>Expertos en el cuidado de tu jardín</h1>
-            <p>Sabemos lo importante que son estos espacios. Las áreas verdes dan vida a los ambientes.</p>           
-            <h1 id="reverso">Más de 30 años de trayectoria!</h1>
+            <h1>Nuestra sede</h1>
+            <p>Ubícanos de la manera más simple.</p>           
+            <h1 id="reverso">Siempre a tu alcance!</h1>
 
-            <div id="carouselExample" class="carousel slide">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="https://images.pexels.com/photos/147640/pexels-photo-147640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        class="main_img d-block w-100"
-                        alt="01">
-                    <div class="carousel-caption d-md-block">
-                      <h5>Un acabado extraordinario</h5>
-                      <h6>Buscamos que cada servicio sea impresionante.</h6>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img src="https://images.pexels.com/photos/259463/pexels-photo-259463.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    class="main_img d-block w-100"
-                    alt="02">
-                    <div class="carousel-caption d-md-block">
-                      <h5>Decoraciones de película</h5>
-                      <h6>Tu imaginación es el límite. Somos capaces de materializarla.</h6>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img src="https://images.pexels.com/photos/2132227/pexels-photo-2132227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    class="main_img d-block w-100"
-                    alt="03">
-                    <div class="carousel-caption d-md-block">
-                      <h5>Flores, cactus y plantas únicas</h5>
-                      <h6>Amplio catálogo disponible para decorar tu jardín.</h6>
-                    </div>
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-            </div>
+            <gmp-map
+            id="map_canvas"
+            class="gm-style-iw"
+            map-id="f6b56ef06a4c3fe5"
+            center="10.171316146850586,-67.89854431152344"
+            zoom="15">
+                <gmp-advanced-marker
+                position="10.171316146850586,-67.89854431152344"
+                title="GreenLeaves"
+                ></gmp-advanced-marker>
+            </gmp-map>
 
-            <button type="button" class="btn btn-primary" id="liveToastBtn">CONOCE NUESTRO LEMA!</button>
-
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                    <strong class="me-auto">GreenLeaves</strong>
-                    <small>Desde 1990</small>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                    'Tu jardín, nuestra naturaleza'
-                    </div>
-                </div>
-            </div>
-
-            <h1>Desde 1990,</h1>
-               <img src="https://images.pexels.com/photos/14688972/pexels-photo-14688972.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-               class="aboutus01"
-               alt="001">
-               <p>nos hemos dedicado a la creacion de espacios naturales encantadores,</p>
-               <p>a reinventar la 'jardinería' con su infinidad de técnicas y</p>
-               <p>a cautivar cada mirada que detalla y se sumerge en nuestros ambientes.</p>
-               <img src="https://images.pexels.com/photos/208321/pexels-photo-208321.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-               class="aboutus01"
-               alt="002">
-               <h1 id="reverso">'Tu jardín, nuestra naturaleza'</h1>
-               <p>porque así lo hemos demostrado y así lo sentimos.</p>
-               <img src="https://images.pexels.com/photos/15975968/pexels-photo-15975968/free-photo-of-ciudad-paisaje-naturaleza-rojo.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-               class="aboutus01"
-               alt="003">
-               <p>Carlos, el fundador de este proyecto, a menudo cuenta esta inspiradora anécdota:</p>
-               <div>
-                    <a tabindex="0" class="btn btn-lg btn-danger" role="button" data-bs-toggle="popover"
-                    data-bs-trigger="focus" data-bs-title="Desde pequeño..."
-                    data-bs-content="'me gustaba vivir alrededor de la naturaleza, del aire puro, y siempre trataba de cuidar las plantas y conservar la limpieza en el patio de mi hogar. Años después, la idea nació y el proyecto lo llevamos a cabo, con la misma pasión que cuando lo hacía de niño! Siempre que contagiemos de buenos sentimientos lo que hacemos, los resultados nos asombrarán'"
-                    data-bs-custom-class="custom-popover"
-                    id="liveToastBtn03">"Siempre persevera!"</a>
-               </div>
+            <p>Direccion:</p>
+            <p>Urb. Buenaventura, Mz. 4, Establecimiento Principal</p>
 
             <footer>
                 <div>                  

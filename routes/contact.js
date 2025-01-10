@@ -8,17 +8,6 @@ const OAuth2 = google.auth.OAuth2;
 const { DateTime } = require('luxon');
 require('dotenv').config();
 
-const accountTransport = { // require("./account_transport.json");
-    service: "gmail",
-    auth: {
-        type: "OAuth2",            
-        user: process.env.MAIN_EMAIL,
-        clientId: process.env.CLIENT_ID_OAUTH,
-        clientSecret: process.env.CLIENT_SECRET_OAUTH,
-        refreshToken: process.env.REFRESH_TOKEN_OAUTH
-    }
-}
-
 // Contacto (formulario)
 router.get('/contact', (req, res) => {
     res.render('contact');
@@ -41,9 +30,20 @@ const verifyCaptcha = async (token, ip) => {
     }
 };
 
-// Configurar el transporte del correo electronico
-const mail_rover = async (callback) => {
+// Transporte (credenciales) del correo electronico
+const accountTransport = {
+    service: "gmail",
+    auth: {
+        type: "OAuth2",            
+        user: process.env.MAIN_EMAIL,
+        clientId: process.env.CLIENT_ID_OAUTH,
+        clientSecret: process.env.CLIENT_SECRET_OAUTH,
+        refreshToken: process.env.REFRESH_TOKEN_OAUTH
+    }
+}
 
+// Configurar el acceso/autenticacion a la cuenta del correo electronico
+const mailAuth = async (callback) => {
     const oauth2Client = new OAuth2(
         accountTransport.auth.clientId,
         accountTransport.auth.clientSecret,
@@ -57,7 +57,7 @@ const mail_rover = async (callback) => {
     });
     oauth2Client.getAccessToken((err, token) => {
         if (err)
-            return console.log(err);;
+            return console.log(err);
         accountTransport.auth.accessToken = token;
         callback(nodemailer.createTransport(accountTransport));
     });
@@ -66,7 +66,7 @@ const mail_rover = async (callback) => {
 // Funcion para el envio del correo electronico
 const sendEmail = async (name, email, message, userIP, country, date) => {
     return new Promise((resolve, reject) => {
-        mail_rover(async (transporter) => {
+        mailAuth(async (transporter) => {
             const formattedDate = DateTime.fromISO(date) 
             .setZone('America/Caracas') 
             .toFormat('dd/MM/yyyy HH:mm:ss');
@@ -116,15 +116,15 @@ class ContactsModel {
     }
     // Recuperar los datos guardados en la base de datos
     async get_info() {
-      return new Promise((resolve, reject) => {
-        this.db.all('SELECT * FROM contacts', (err, rows) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(rows);
-          }
+        return new Promise((resolve, reject) => {
+            this.db.all('SELECT * FROM contacts', (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(rows);
+            }
+            });
         });
-      });
     }
 }
 
@@ -174,13 +174,13 @@ router.post('/send', async (req, res) => {
 
 // Muestra la informacion guardada en la base de datos
 contactosModel.get_info()
-    .then(contacts => {
-        console.log("Database:\n");
-        console.log(contacts);
-    })
-    .catch(err => {
-        console.error('Error:', err);
-    });
+.then(contacts => {
+    console.log("Database:\n");
+    console.log(contacts);
+})
+.catch(err => {
+    console.error('Error:', err);
+});
 
 
 module.exports = router;

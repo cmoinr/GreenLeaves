@@ -467,6 +467,22 @@ input::placeholder {
   border-radius: 15px;
 }
 
+gmp-map {
+  height: 400px;
+  width: 600px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gm-style-iw {
+  background: linear-gradient(to bottom, #a3cb2b, #f7fc52);;
+  border: 1px solid #a3cb2b;
+  border-radius: 15px;
+  padding: 10px;
+}
+
 @media only screen and (max-width: 480px) {
   .aboutus01 {
     width: 100%;
@@ -519,5 +535,14 @@ input::placeholder {
 
   a {
     text-decoration: none;
+  }
+
+  gmp-map {
+    height: 300px;
+    width: 300px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
