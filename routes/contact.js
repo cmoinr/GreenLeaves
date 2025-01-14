@@ -85,7 +85,6 @@ const sendEmail = async (name, email, message, userIP, country, date) => {
                     Fecha/Hora: ${formattedDate}
                     `
                 });
-                console.log('Mensaje enviado:', info.messageId);
                 resolve(info);
             } catch (error) {
                 console.error('Error al enviar el correo:', error);
@@ -136,6 +135,7 @@ router.post('/send', async (req, res) => {
     // Datos obtenidos del formulario
     const { email, name, message, userIP, "g-recaptcha-response": token } = req.body;
     const date = new Date().toISOString();
+    const error = new Error();
 
     // Uso de la API [ipstack.com] (geolocalización por IP)
     const response = await axios.get(`http://api.ipstack.com/${userIP}?access_key=${process.env.IPSTACK_ACCESS_KEY}`);
@@ -143,7 +143,8 @@ router.post('/send', async (req, res) => {
 
     // Validar los datos del formulario antes de guardarlos
     if (!email || !name || !message || !token) {
-        return res.status(400).send('Por favor, completa todos los campos (incluyendo el reCAPTCHA)');
+        error.messageForUser = 'Por favor, completa todos los campos (incluyendo el reCAPTCHA)';
+        return res.render('error', { error });
     }
 
     // Verificar la validez del token (reCAPTCHA)
@@ -151,7 +152,7 @@ router.post('/send', async (req, res) => {
         // Envio del correo electronico
         sendEmail(name, email, message, userIP, country, date)
         .then(async (info) => {
-            console.log('Mail sent:', info);
+            console.log('Mail sent:', info.envelope, info.response);
 
             // Si el correo se envió correctamente...
             try {
@@ -167,7 +168,8 @@ router.post('/send', async (req, res) => {
             console.error('Mail error:', error);
         });
     } else {
-        res.status(400).send('reCAPTCHA: error de validacion');
+        error.messageForUser = 'reCAPTCHA: error de validacion';     
+        return res.render('error', { error });
     }
 });
 

@@ -29,33 +29,38 @@ app.get('/', (req, res) => {
 
 // Ubicación
 app.get('/location', (req, res) => {
-  res.render('location');
+    res.render('location');
 });
 
 // Beneficios
 app.get('/benefits', (req, res) => {
-  res.render('benefits');
+    res.render('benefits');
 });
 
 // Clientes
 app.get('/customers', (req, res) => {
-  res.render('customers');
+    res.render('customers');
 });
 
 // Servicios
 app.get('/services', (req, res) => {
-  res.render('services');
+    res.render('services');
 });
 
 // Pagina de agradecimiento (formulario)
 app.get('/thanks', (req, res) => {
-  res.render('thanks');
+    res.render('thanks');
 });
+
+// Mensaje personalizado de error
+app.get('/error', (req, res) => {
+    res.render('error');
+})
 
 // Puerto del servidor
 const port = 2700;
 app.listen(port, () => {
-    console.log(`Servidor escuchando en el puerto ${port}\n`);
+    console.log(`Servidor activo en el puerto ${port}\n`);
 });
 
 module.exports = app;

@@ -267,7 +267,7 @@ input::placeholder {
 /* Base structure */
 
 .cover-container {
-  max-width: 42em;
+  max-width: 70em;
 }
 
 /* Header*/
@@ -343,8 +343,8 @@ input::placeholder {
 }
 
 #logo {
-  height: 10%;
-  width: 10%;
+  height: 5%;
+  width: 5%;
 }
 
 #carouselExample {
@@ -477,13 +477,18 @@ gmp-map {
 }
 
 .gm-style-iw {
-  background: linear-gradient(to bottom, #a3cb2b, #f7fc52);;
-  border: 1px solid #a3cb2b;
+  background: linear-gradient(to bottom, #2f7408, #46870b, #a3cb2b);
+  border: 1px solid #2f7408;
   border-radius: 15px;
   padding: 10px;
 }
 
 @media only screen and (max-width: 480px) {
+  #logo {
+    height: 15%;
+    width: 15%;
+  }
+
   .aboutus01 {
     width: 100%;
     height: 100%;
