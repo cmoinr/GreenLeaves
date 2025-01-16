@@ -38,7 +38,8 @@ const accountTransport = {
         user: process.env.MAIN_EMAIL,
         clientId: process.env.CLIENT_ID_OAUTH,
         clientSecret: process.env.CLIENT_SECRET_OAUTH,
-        refreshToken: "1//04p5G01mWBg_PCgYIARAAGAQSNwF-L9Ir9_MX7vk_2S9hTqY9L-6mqqBMZJCfF0NTTt65rgMZ5R1XMdKc6NFokAcN4YHh4CBXnDE"
+        refreshToken: "1//04p5G01mWBg_PCgYIARAAGAQSNwF-L9Ir9_MX7vk_2S9hTqY9L-6mqqBMZJCfF0NTTt65rgMZ5R1XMdKc6NFokAcN4YHh4CBXnDE",
+        accessToken: "ya29.a0ARW5m77tWTP-2rvUE8H1xqk-sFiXovWUdk991myUrDlQ6eJoY0t-yKXpKFqlJpI4Tt1YK57PP4GfDEVhYHqtudoSQO_VMqeroGuCxgPVVtCTAs_cxjAUbAcPusnpLQdS-uggNPdOi7NjppKON2alsOgAR8QlN5x7lg-wjyAiaCgYKAeISARISFQHGX2Mi759hHSs3r68TwsYJO3ufUw0175"
     }
 }
 
