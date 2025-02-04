@@ -126,7 +126,7 @@ class ContactsModel {
             });
         });
     }
-}
+};
 
 // Acceso a la clase 'ContactsModel'
 const contactosModel = new ContactsModel();

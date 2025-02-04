@@ -1,0 +1,23 @@
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('db.sqlite');
+
+const User = {
+  create: (username, password_hash, callback) => {
+    db.run('INSERT INTO users (username, password_hash) VALUES (?, ?)', [username, password_hash], function(err) {
+      if (err) {
+        return callback(err);
+      }
+      return callback(null, this.lastID);
+    });
+  },
+  findByUsername: (username, callback) => {
+    db.get('SELECT * FROM users WHERE username = ?', [username], (err, row) => {
+      if (err) {
+        return callback(err);
+      }
+      return callback(null, row);
+    });
+  }
+};
+
+module.exports = User;

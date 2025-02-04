@@ -62,7 +62,22 @@
                          
                </footer>
           </div>
-                    
+                 
+          <!-- Acceso a Inicio Sesion/Registro -->
+          <div class="button_admin">
+               <button class="buttonF1" onclick="location.href='/login'">
+               <span>Admin</span>
+               </button>
+          </div>
+          <script>
+               $('.buttonF1').hover(function() {
+               $('.btn').addClass('animacionVer');
+               })
+               $('.button_admin').mouseleave(function() {
+               $('.btn').removeClass('animacionVer');
+               })
+          </script>
+
           <!-- Google tag (gtag.js) -->
           <script async src="https://www.googletagmanager.com/gtag/js?id=G-JREMD85HCY"></script>
           <script>

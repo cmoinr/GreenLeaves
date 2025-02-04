@@ -8,6 +8,7 @@
   "dependencies": {
     "@google-cloud/recaptcha-enterprise": "^5.13.0",
     "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.4.7",
@@ -21,6 +22,8 @@
     "morgan": "~1.9.1",
     "nodemailer": "^6.9.16",
     "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
     "passport-oauth2": "^1.8.0",
     "public-ip": "^7.0.1",
     "request": "^2.88.2",

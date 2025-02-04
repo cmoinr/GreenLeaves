@@ -1,13 +1,28 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
+// const passport = require('./routes/passport');
 
 const app = express();
 
 var contactRouter = require('./routes/contact');
+var listRouter = require('./routes/contactos');
+var adminActions = require('./routes/admin_actions');
 
 // Configuración del motor de plantillas EJS
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Configuración de sesiones
+app.use(session({
+    secret: 'secret_rdm', // Cambia esto por un secreto aleatorio
+    resave: false,
+    saveUninitialized: false
+  }));
+  
+// Inicializa Passport.js
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Servir archivos estáticos
 // Configurar la ruta a los archivos estáticos usando una variable de entorno
@@ -20,7 +35,13 @@ app.use(express.json());
 // *** Rutas/secciones de la pagina web *** //
 
 // Formulario, ContactsController & ContactsModel
-app.use('/', contactRouter)
+app.use('/', contactRouter);
+
+// Ver el contenido de la base de datos
+app.use('/', listRouter);
+
+// Iniciar sesion y Registrarse (admin)
+app.use('/', adminActions);
 
 // Home
 app.get('/', (req, res) => {
@@ -55,7 +76,14 @@ app.get('/thanks', (req, res) => {
 // Mensaje personalizado de error
 app.get('/error', (req, res) => {
     res.render('error');
-})
+});
+
+// TESTING ADDS
+// const authRoutes = require('./routes/auth');
+// app.use('/', authRoutes);
+
+// const contactosRoutes = require('./routes/contactos');
+// app.use('/', contactosRoutes);
 
 // Puerto del servidor
 const port = 2700;
