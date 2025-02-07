@@ -10,7 +10,12 @@ require('dotenv').config();
 
 // Contacto (formulario)
 router.get('/contact', (req, res) => {
-    res.render('contact');
+    // Metadatos personalizados | Protocolo Open Graph
+    const title = 'Contacto';
+    const header_01 = 'Dispuestos a escucharte';
+    const header_02 = 'Cualquier solicitud o mensaje, estamos para ti.';
+
+    res.render('contact', {title, header_01, header_02, viewPath: 'contact'});
 });
 
 // Funcion para verificar el token (reCAPTCHA)
@@ -176,14 +181,14 @@ router.post('/send', async (req, res) => {
 
 
 // Muestra la informacion guardada en la base de datos
-contactosModel.get_info()
-.then(contacts => {
-    console.log("Database:\n");
-    console.log(contacts);
-})
-.catch(err => {
-    console.error('Error:', err);
-});
+// contactosModel.get_info()
+// .then(contacts => {
+//     console.log("Database:\n");
+//     console.log(contacts);
+// })
+// .catch(err => {
+//     console.error('Error:', err);
+// });
 
 
 module.exports = router;
