@@ -440,6 +440,7 @@ input::placeholder {
 }
 
 #logo {
+  background-image: none !important;
   height: 50px;
   width: 65px;
   margin-left: 7%;

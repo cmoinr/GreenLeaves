@@ -4,12 +4,12 @@ const path = require('path');
 const passport = require('./routes/passport');
 var layouts = require('express-ejs-layouts');
 const flash = require('connect-flash');
+require('dotenv').config();
 
 const app = express();
 
 var contactRouter = require('./routes/contact');
 var adminActions = require('./routes/admin_actions');
-const { libraryagent } = require('googleapis/build/src/apis/libraryagent');
 
 // Configuración del motor de plantillas EJS
 app.set('views', path.join(__dirname, 'views'));
@@ -27,8 +27,8 @@ app.use(session({
     // Configurar de cookies seguras
     cookie: {
         httpOnly: true,
-        sameSite: 'Lax', // o 'Strict' en producción
-        secure: false, // process.env.NODE_ENV === 'production', // Solo en producción
+        sameSite: 'Lax',
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 15 * 60 * 1000 // 15 minutos de inactividad
     }
 }));
