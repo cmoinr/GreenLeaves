@@ -39,6 +39,8 @@ h3 {
   font-style: bold;
   text-align: center;
   margin: 0.020cm;
+  margin-left: 0.25%;
+  margin-top: 1.25%;
   font-size: 30px;
   background: linear-gradient(to right, #2f7408, #46870b, #a3cb2b, #f7fc52);
   -webkit-background-clip: text;
@@ -327,13 +329,22 @@ input::placeholder {
 /* Base structure */
 
 .cover-container {
-  max-width: 70em;
+  height: 11%;
+  max-width: 100em;
+  backdrop-filter: blur(20px);
+}
+
+#admin_bar {
+  margin-right: 5%;
+  margin-top: 0.70%;
 }
 
 /* Header*/
 
 .nav-masthead .nav-link {
-  color: rgba(255, 255, 255, .5);
+  margin-top: 5%;
+  margin-left: -50%;
+  color: rgb(255, 255, 255);
   border-bottom: .15rem solid transparent;
 }
 
@@ -348,7 +359,7 @@ input::placeholder {
 
 .nav-masthead .active {
   color: #fff;
-  border-bottom-color: #fff;
+  border-bottom-color: #ffffffb2;
 }
 
 .bd-placeholder-img {
@@ -357,6 +368,32 @@ input::placeholder {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+}
+
+@media only screen and (max-width: 480px) {
+  #admin_bar {
+    margin-left: 3%;
+    margin-top: 0%;
+  }
+
+  .nav-masthead .nav-link {
+    margin-top: 2.5%;
+    margin-left: 1%;
+    color: rgb(255, 255, 255);
+    border-bottom: .15rem solid transparent;
+  }
+
+  table {
+    margin: 10%;
+    width: 10%;
+    text-align: center;
+    border: 1px solid white;
+    border-collapse: collapse;
+    line-height: 1.25;
+    padding-bottom: 5%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media (min-width: 768px) {
@@ -403,8 +440,11 @@ input::placeholder {
 }
 
 #logo {
-  height: 5%;
-  width: 5%;
+  height: 50px;
+  width: 65px;
+  margin-left: 7%;
+  margin-top: 0.70%;
+  aspect-ratio: auto;
 }
 
 #carouselExample {
@@ -588,8 +628,25 @@ span {
 /* RESPONSIVE ELEMENTS */
 @media only screen and (max-width: 480px) {
   #logo {
-    height: 15%;
-    width: 15%;
+    height: 25px;
+    width: 32.5px;
+    margin-left: 25%;
+    margin-top: 1%;
+    aspect-ratio: auto;
+  }
+
+  .float-md-start {
+    font-family: "DM Serif Text", serif;
+    font-weight: 400;
+    font-style: bold;
+    text-align: center;
+    margin: 0.020cm;
+    margin-right: 25%;
+    margin-top: 1%;
+    font-size: 25px;
+    background: linear-gradient(to right, #2f7408, #46870b, #a3cb2b, #f7fc52);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .aboutus01 {
@@ -654,3 +711,21 @@ span {
     margin-right: auto;
   }
 }
+
+/***** MENSAJE/ALERT FLASH *****/
+.alert {
+  width:20%;
+  height:10%;
+  border-radius:10px;
+  margin-left: auto;
+  margin-right: auto;
+  background:linear-gradient(to right, #a3cb2b, #f7fc52);
+  color:black;
+  font-size:15px;
+}
+
+.alert.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out; /* Ajusta la duración y la función de tiempo */
+}
+/***** MENSAJE/ALERT FLASH *****/

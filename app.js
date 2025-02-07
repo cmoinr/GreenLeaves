@@ -3,6 +3,7 @@ const session = require('express-session');
 const path = require('path');
 const passport = require('./routes/passport');
 var layouts = require('express-ejs-layouts');
+const flash = require('connect-flash');
 
 const app = express();
 
@@ -16,14 +17,33 @@ app.set('view engine', 'ejs');
 
 app.use(layouts);
 app.set('layout');
+app.use(flash());
 
 // Configuración de sesiones
 app.use(session({
     secret: '4JQZ/0U77b6cLPstac63Ocj309AXNRT2n522KUHFbUg=',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    // Configurar de cookies seguras
+    cookie: {
+        httpOnly: true,
+        sameSite: 'Lax', // o 'Strict' en producción
+        secure: false, // process.env.NODE_ENV === 'production', // Solo en producción
+        maxAge: 15 * 60 * 1000 // 15 minutos de inactividad
+    }
 }));
+
+// Middleware para verificar la inactividad
+app.use((req, res, next) => {
+    if (req.session.lastActivity && Date.now() - req.session.lastActivity > 15 * 60 * 1000) {
+        req.session.destroy(() => {
+            res.redirect('/login');
+        });
+    } else {
+        req.session.lastActivity = Date.now();
+        next();
+    }
+});
 
 // Servir archivos estáticos
 // Configurar la ruta a los archivos estáticos usando una variable de entorno
@@ -43,11 +63,6 @@ app.use('/', contactRouter);
 
 // Ver el contenido de la base de datos | Iniciar sesion y Registrarse (admins)
 app.use('/', adminActions);
-
-// Layout
-// app.get('/layout', (req, res) => {
-//     res.render('layout');
-// });
 
 // Home
 app.get('/', (req, res) => {
@@ -151,7 +166,6 @@ app.get('/error', (req, res) => {
 });
 
 // Rutas de autenticación con Google
-
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/google/callback',

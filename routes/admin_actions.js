@@ -1,10 +1,8 @@
 const express = require('express');
-const session = require('express-session');
 const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const axios = require('axios');
 const bcrypt = require('bcrypt');
-const { google } = require("googleapis");
 require('dotenv').config();
 
 // Middleware para verificar si el usuario está autenticado antes de acceder a la ruta '/contactos'
@@ -82,9 +80,9 @@ router.get('/contactos', requireAuth, async (req, res) => {
 
 // Ruta para iniciar sesion
 router.get('/login', (req, res) => {
-    const title = 'Iniciar Sesión';
+    const title = 'Iniciar Sesión'
 
-    res.render('login', {title, viewPath: 'admin_views/login'});
+    res.render('login', {title, viewPath: 'admin_views/login', messages: req.flash() });
 });
 
 // Ruta para registrarse
@@ -227,6 +225,7 @@ router.post('/register', async (req, res) => {
             await getData.create_user(username, hashedPassword);
 
             // Redirigir al usuario a la página de inicio de sesión
+            req.flash('success', '¡Registro exitoso!');
             return res.redirect('/login');
         } catch (error) {
             console.error(error);

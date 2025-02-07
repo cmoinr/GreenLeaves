@@ -21,13 +21,14 @@
         <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmgZcjX8yFgVNtzL5iRpWlyOKlnBi94Po&callback=console.debug&libraries=maps,marker,core&v=beta"></script>
     </head>
     <body>
-        <div class="cover-container d-flex mx-auto flex-column">
-            <header class="mb-auto">
-                <a href="/">
-                  <img src="https://images.pexels.com/photos/57726/leaf-leaves-jack-fruit-leaf-green-57726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="rounded float-start" alt="..." id="logo">
-                  <h3 class="float-md-start mb-0">GreenLeaves</h3>
-                </a>
+        <div class="cover-container d-flex mx-auto flex-column fixed-top">
+            <header class="mb-auto nav-masthead nav-link">
                 <% if (!viewPath.startsWith('admin_views/')) { %>
+                    <a href="/">
+                      <img src="https://cvws.icloud-content.com/B/AR-ow4x38dU_TjP2wY19_CX6KOtXAR4TIQVrAiRgi_sOATqbx1pilV9b/greenleaves_logo.png?o=AkVX-mSzkZ-sOeDQOXC_-AdGtUDeX2fdGQ4VTFrrcTpP&v=1&x=3&a=CAog41CyZEyZ1R3CR-Lvwb1z4WzSPzzngqyZRmKrg9DRAz0SbxDN48KMzjIYzcCejs4yIgEAUgT6KOtXWgRilV9baicp630FXx5a3b8E596j6B7DV9MEkb_5fJttB8SIhHRSyupjyJlU7dNyJ0I44z0Q6W_J_6_uEXkpynZXedt1WkdaRfJApds15CSsmQfRapClzw&e=1738954743&fl=&r=7e67fd62-bba8-4428-a3d4-24bb46b06c1b-1&k=o95Ex6gQOUPXDfwMjTvq0Q&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=173&s=3XLHpVb62F1XoOd87EnrzEO3RZI&cd=i" class="rounded float-start" alt="..." id="logo">
+                      <!-- https://images.pexels.com/photos/57726/leaf-leaves-jack-fruit-leaf-green-57726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1 -->
+                      <h3 class="float-md-start mb-0">GreenLeaves</h3>
+                    </a>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
                       <a class="nav-link py-1 px-0" href="/location">Ubicación</a>
                       <a class="nav-link py-1 px-0" href="/services">Servicios</a>
@@ -36,13 +37,17 @@
                       <a class="nav-link py-1 px-0" href="/contact">Contacto</a>
                     </nav>
                 <% } else { %>
+                    <a>
+                      <img src="https://cvws.icloud-content.com/B/AR-ow4x38dU_TjP2wY19_CX6KOtXAR4TIQVrAiRgi_sOATqbx1pilV9b/greenleaves_logo.png?o=AkVX-mSzkZ-sOeDQOXC_-AdGtUDeX2fdGQ4VTFrrcTpP&v=1&x=3&a=CAog41CyZEyZ1R3CR-Lvwb1z4WzSPzzngqyZRmKrg9DRAz0SbxDN48KMzjIYzcCejs4yIgEAUgT6KOtXWgRilV9baicp630FXx5a3b8E596j6B7DV9MEkb_5fJttB8SIhHRSyupjyJlU7dNyJ0I44z0Q6W_J_6_uEXkpynZXedt1WkdaRfJApds15CSsmQfRapClzw&e=1738954743&fl=&r=7e67fd62-bba8-4428-a3d4-24bb46b06c1b-1&k=o95Ex6gQOUPXDfwMjTvq0Q&ckc=com.apple.clouddocs&ckz=com.apple.CloudDocs&p=173&s=3XLHpVb62F1XoOd87EnrzEO3RZI&cd=i" class="rounded float-start" alt="..." id="logo">
+                      <h3 class="float-md-start mb-0">GreenLeaves</h3>
+                    </a>
                     <% if (viewPath == 'admin_views/contactos') { %>
-                        <nav class="nav nav-masthead justify-content-center float-md-end">
+                        <nav class="nav nav-masthead justify-content-center float-md-end" id="admin_bar">
                           <a class="nav-link py-1 px-0 active">Hola, <%= user.username %></a>
                           <a class="nav-link py-1 px-0" href="/logout">Cerrar Sesión</a>
                         </nav>
                     <% } else { %>
-                        <nav class="nav nav-masthead justify-content-center float-md-end">
+                        <nav class="nav nav-masthead justify-content-center float-md-end" id="admin_bar">
                           <a class="nav-link py-1 px-0" href="/login">Iniciar Sesión</a>
                           <a class="nav-link py-1 px-0" href="/register">Registrarse</a>
                         </nav>

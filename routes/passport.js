@@ -1,7 +1,4 @@
 const passport = require('passport');
-const express = require('express');
-const session = require('express-session');
-const router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -12,18 +9,6 @@ class DataBase {
   constructor() {
       // Conexion a la base de datos
       this.db = new sqlite3.Database('db.sqlite');
-  }
-  // Obtener los datos almacenados, a traves de consulta SQL
-  async get_info() {
-      return new Promise((resolve, reject) => {
-          this.db.all('SELECT * FROM contacts', (err, rows) => {
-              if (err) {
-                  reject(err);
-              } else {
-                  resolve(rows);
-              }
-          });
-      });
   }
   // Obtener los datos del usuario desde la base de datos
   async get_user(username) {
@@ -66,48 +51,11 @@ async function hashPassword(password) {
   }
 };
 
-// Verificacion de contraseña: compara la contraseña ingresada por el usuario con el hash almacenado
-async function comparePassword(password, hash) {
-  try {
-      const match = await bcrypt.compare(password, hash);
-      return match;
-  } catch (err) {
-      console.error(err);
-      throw err;
-  }
-};
-
 // Inicio de sesion con Google
-// async function loginGoogle(user) {
-//   // Verificar si el nombre de usuario ya existe
-//   const existingUser = await getData.get_user(user.email);
-//   if (existingUser) {
-//       const passwordMatch = await comparePassword(user.username, existingUser.password_hash);
-
-//       if (passwordMatch) {
-//           // Inicio de sesión exitoso
-//           req.session.user = {
-//               id: existingUser.id,
-//               username: existingUser.username
-//           };
-//           return res.redirect('/contactos');
-//       }
-//   } else {
-//       // Cifrar la contraseña
-//       const hashedPassword = await hashPassword(user.username);
-
-//       // Insertar el nuevo usuario en la base de datos
-//       await getData.create_user(user.email, hashedPassword);
-
-//       loginGoogle(user);
-//   }
-// };
-
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID_OAUTH,
     clientSecret: process.env.CLIENT_SECRET_OAUTH,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
-    passReqToCallback: true
 },
 async function(accessToken, refreshToken, profile, done) {
     try {

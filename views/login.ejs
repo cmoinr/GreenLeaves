@@ -1,3 +1,9 @@
+<% if (messages.success) { %>
+     <div class="alert alert-success">
+          <%= messages.success %>
+     </div>
+<% } %>
+
 <form id="login_form" action="/login" method="POST">
      <input type="hidden" id="userIP" name="userIP">
      <div class="mb-3">
@@ -15,7 +21,7 @@
      </button>     
 </form>
 
-<button class="btn" name="btn_google" id="btn_google" onclick="location.href='/auth/google'" action="/login_google" method="POST">
+<button class="btn" name="btn_google" id="btn_google" onclick="location.href='/auth/google'">
      <img src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000" width="35" height="35">
      Inicia Sesión con Google
 </button>
@@ -30,6 +36,18 @@
      .catch(error => {
           console.error('Error al obtener la IP:', error);
      });
+</script>
+
+<script>
+     setTimeout(() => {
+          const flashMessage = document.querySelector('.alert');
+          if (flashMessage) {
+               flashMessage.classList.add('fade-out');
+               setTimeout(() => {
+                    flashMessage.remove(); // Elimina el elemento después de la transición
+               }, 500); // Espera a que termine la transición (0.5s)
+          }
+     }, 3000); // 5 segundos
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
