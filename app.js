@@ -21,7 +21,7 @@ app.use(flash());
 
 // Configuración de sesiones
 app.use(session({
-    secret: '4JQZ/0U77b6cLPstac63Ocj309AXNRT2n522KUHFbUg=',
+    secret: process.env.SECRET_SESSION,
     resave: false,
     saveUninitialized: false,
     // Configurar de cookies seguras
