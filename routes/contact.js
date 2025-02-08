@@ -150,7 +150,7 @@ router.post('/send', async (req, res) => {
     // Validar los datos del formulario antes de guardarlos
     if (!email || !name || !message || !token) {
         error.messageForUser = 'Por favor, completa todos los campos (incluyendo el reCAPTCHA)';
-        return res.render('error', { error });
+        return res.render('error', { error, title: 'Error', viewPath: 'error' });
     }
 
     // Verificar la validez del token (reCAPTCHA)
@@ -175,7 +175,7 @@ router.post('/send', async (req, res) => {
         });
     } else {
         error.messageForUser = 'reCAPTCHA: error de validacion';     
-        return res.render('error', { error });
+        return res.render('error', { error, title: 'Error', viewPath: 'error'});
     }
 });
 

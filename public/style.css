@@ -326,12 +326,13 @@ input::placeholder {
   text-shadow: none; /* Prevent inheritance from `body` */
 }
 
-/* Base structure */
+/* Base structure / NAVBAR */
 
 .cover-container {
   height: 11%;
   max-width: 100em;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 #admin_bar {
@@ -440,7 +441,6 @@ input::placeholder {
 }
 
 #logo {
-  background-image: none !important;
   height: 50px;
   width: 65px;
   margin-left: 7%;
@@ -626,6 +626,24 @@ span {
   transform:scale(1);
 }
 
+/***** MENSAJE/ALERT FLASH *****/
+.alert {
+  width: 20%;
+  height: 10%;
+  border-radius:10px;
+  margin-left: auto;
+  margin-right: auto;
+  background:linear-gradient(to right, #a3cb2b, #f7fc52);
+  color:black;
+  font-size:15px;
+}
+
+.alert.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out; /* Ajusta la duración y la función de tiempo */
+}
+/***** MENSAJE/ALERT FLASH *****/
+
 /* RESPONSIVE ELEMENTS */
 @media only screen and (max-width: 480px) {
   #logo {
@@ -646,6 +664,7 @@ span {
     margin-top: 1%;
     font-size: 25px;
     background: linear-gradient(to right, #2f7408, #46870b, #a3cb2b, #f7fc52);
+    background-clip: border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -711,22 +730,15 @@ span {
     margin-left: auto;
     margin-right: auto;
   }
-}
 
-/***** MENSAJE/ALERT FLASH *****/
-.alert {
-  width:20%;
-  height:10%;
-  border-radius:10px;
-  margin-left: auto;
-  margin-right: auto;
-  background:linear-gradient(to right, #a3cb2b, #f7fc52);
-  color:black;
-  font-size:15px;
+  .alert {
+    width: auto;
+    height: auto;
+    border-radius:10px;
+    margin-left: auto;
+    margin-right: auto;
+    background:linear-gradient(to right, #a3cb2b, #f7fc52);
+    color:black;
+    font-size: 17px;
+  }
 }
-
-.alert.fade-out {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out; /* Ajusta la duración y la función de tiempo */
-}
-/***** MENSAJE/ALERT FLASH *****/
