@@ -9,3 +9,14 @@ CREATE TABLE users (
     password_hash TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Para almacenar la informacion obtenida del formulario
+CREATE TABLE contacts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT  
+    email TEXT,
+    name TEXT,  
+    message TEXT,  
+    ip TEXT,  
+    date TEXT,  
+    country TEXT
+);

@@ -55,18 +55,30 @@ const mailAuth = async (callback) => {
         accountTransport.auth.clientSecret,
         "https://developers.google.com/oauthplayground",
     );
+
     oauth2Client.setCredentials({
         refresh_token: accountTransport.auth.refreshToken,
-        tls: {
-            rejectUnauthorized: false
-        }
     });
-    oauth2Client.getAccessToken((err, token) => {
-        if (err)
-            return console.log(err);
+
+    try {
+        const { token } = await oauth2Client.getAccessToken();
         accountTransport.auth.accessToken = token;
         callback(nodemailer.createTransport(accountTransport));
-    });
+    } catch (error) {
+        console.error('Error al renovar el Access Token:', error);
+    }
+    // oauth2Client.setCredentials({
+    //     refresh_token: accountTransport.auth.refreshToken,
+    //     tls: {
+    //         rejectUnauthorized: false
+    //     }
+    // });
+    // oauth2Client.getAccessToken((err, token) => {
+    //     if (err)
+    //         return console.log(err);
+    //     accountTransport.auth.accessToken = token;
+    //     callback(nodemailer.createTransport(accountTransport));
+    // });
 };
 
 // Funcion para el envio del correo electronico
