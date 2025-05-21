@@ -92,15 +92,15 @@ const sendEmail = async (name, email, message, userIP, country, date) => {
             try {
                 const info = await transporter.sendMail({
                     from: `GreenLeaves <${process.env.MAIN_EMAIL}>`,
-                    to: ['programacion2ais@dispostable.com', 'nieves.carlos5a@gmail.com'],
+                    to: ['nieves.carlos5a@gmail.com'],
                     subject: 'GreenLeaves | Formulario de contacto',
                     text: `
-                    Nombre: ${name}
-                    Correo: ${email}
-                    Comentario: ${message}
-                    IP: ${userIP}
-                    País: ${country}
-                    Fecha/Hora: ${formattedDate}
+                        Nombre: ${name}
+                        Correo: ${email}
+                        Comentario: ${message}
+                        IP: ${userIP}
+                        País: ${country}
+                        Fecha/Hora: ${formattedDate}
                     `
                 });
                 resolve(info);
