@@ -1,0 +1,34 @@
+<form id="forgotten_form" action="/forgotten" method="POST">
+     <input type="hidden" id="userIP" name="userIP">
+     <div class="mb-3">
+          <input autocomplete="off" class="shaded-input" id="username" name="username" placeholder="Nombre de usuario" type="text" required>
+     </div>
+
+     <div class="mb-3">
+          <input autocomplete="off" class="shaded-input" id="password" name="password" placeholder="Nueva contraseña" type="password" required>
+     </div>
+
+     <div class="mb-3">
+          <input autocomplete="off" class="shaded-input" id="validate" name="validate" placeholder="Confirmar contraseña" type="password" required>
+     </div>
+     
+     <div class="g-recaptcha" name="g-recaptcha" id="g-recaptcha" data-sitekey="6Let8K8qAAAAAECgLS39GKKY9hkcGTkUHWN9LJeg"></div>
+
+     <button class="btn" name="btn_form" id="btn_form" type="submit">
+          Actualizar mi Contraseña
+     </button>
+</form>
+
+<script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
+<script type="application/javascript">
+     fetch('https://api.ipify.org?format=json')
+     .then(response => response.json())
+     .then(data => {
+          document.getElementById('userIP').value = data.ip;
+     })
+     .catch(error => {
+          console.error('Error al obtener la IP:', error);
+     });
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>

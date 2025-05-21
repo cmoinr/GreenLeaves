@@ -7,11 +7,14 @@ require('dotenv').config();
 
 // Middleware para verificar si el usuario está autenticado antes de acceder a la ruta '/contactos'
 function requireAuth(req, res, next) {
+    // console.log('--- requireAuth ---');
+    // console.log('Cookie:', req.headers.cookie);
+    // console.log('Session ID:', req.sessionID);
+    // console.log('Session:', req.session);
     if (req.session.user) {
         // El usuario está autenticado, permite el acceso
         next();
     } else {
-        console.log(req.session.user);
         // El usuario no está autenticado, redirige a la página de inicio de sesión
         res.redirect('/login');
     }
@@ -59,6 +62,18 @@ class DataBase {
             });
         });
     }
+    // Modificar/actualizar la nueva password del usuario
+    async update_password(username, password_hash) {
+        return new Promise((resolve, reject) => {
+            this.db.run('UPDATE users SET password_hash = ? WHERE username = ?', [password_hash, username], function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(this.changes); // Devuelve el número de filas modificadas
+                }
+            });
+        });
+    }
 };
 
 // Acceso a la clase 'GetData'
@@ -66,7 +81,8 @@ const getData = new DataBase();
 
 // Ruta autenticada con la informacion de los formularios enviados
 router.get('/contactos', requireAuth, async (req, res) => {
-    console.log(req.session.user);
+    // console.log('--- GET /contactos ---');
+    // console.log('Session:', req.session);
     try {
         const title = 'Contactos';
         const contactos = await getData.get_info(); // Obtén todos los contactos desde la base de datos        
@@ -102,6 +118,13 @@ router.get('/logout', (req, res) => {
             res.redirect('/login');
         }
     });
+});
+
+// Ruta para actualizar contrasena olvidada
+router.get('/forgotten', (req, res) => {
+    const title = 'Recuperar Contraseña';
+
+    res.render('forgotten', {title, viewPath: 'admin_views/forgotten'});
 });
 
 // Funcion para verificar el token (reCAPTCHA)
@@ -149,6 +172,9 @@ router.post('/login', async (req, res) => {
     // Datos obtenidos del formulario
     const { username, password, userIP, "g-recaptcha-response": token } = req.body;
     const error = new Error();
+    // console.log('--- POST /login ---');
+    // console.log('Body:', req.body);
+    // console.log('Session antes de login:', req.session);
 
     // Validar los datos del formulario antes de verificar en la base de datos
     if (!username || !password || !token) {
@@ -157,20 +183,23 @@ router.post('/login', async (req, res) => {
     }
 
     // Verificar la validez del token (reCAPTCHA)
-    if (verifyCaptcha(token, userIP)) {
+    if (await verifyCaptcha(token, userIP)) {
         try {
             // Obtener el usuario de la base de datos
             const user = await getData.get_user(username);      
             if (user) {
                 const passwordMatch = await comparePassword(password, user.password_hash);
-        
                 if (passwordMatch) {
                     // Inicio de sesión exitoso
                     req.session.user = {
                         id: user.id,
                         username: user.username
                     };
-                    return res.redirect('/contactos');
+                    // console.log('Session después de asignar user:', req.session);
+                    req.session.save(() => {
+                        // console.log('Session guardada, redirigiendo a /contactos');
+                        return res.redirect('/contactos');
+                    });
                 } else {
                     error.messageForUser = 'Credenciales incorrectas';
                     return res.render('error', { error, title: 'Error', viewPath: 'admin_views/error' });
@@ -238,5 +267,52 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// Solicitud para recuperar/modificar password olvidada
+router.post('/forgotten', async (req, res) => {
+    // Datos obtenidos del formulario
+    const { username, password, validate, userIP, "g-recaptcha-response": token } = req.body;
+    const error = new Error();
+
+    // Validar los datos del formulario antes de verificar en la base de datos
+    if (!username || !password || !validate || !token) {
+        error.messageForUser = 'Por favor, completa todos los campos (incluyendo el reCAPTCHA)';
+        return res.render('error', { error, title: 'Error', viewPath: 'admin_views/error' });
+    }
+
+    // Verificar que las contrasenas coinciden
+    if (password !== validate) {
+        error.messageForUser = 'Las contraseñas no coinciden';
+        return res.render('error', { error, title: 'Error', viewPath: 'admin_views/error' });
+    }
+
+    // Verificar la validez del token (reCAPTCHA)
+    if (verifyCaptcha(token, userIP)) {
+        try {
+            // Verificar si el nombre de usuario existe y es correcto
+            const existingUser = await getData.get_user(username);
+            if (existingUser) {           
+                // Cifrar la contraseña
+                const hashedPassword = await hashPassword(password);
+
+                // Modificar/actualizar la nueva password del usuario en la base de datos
+                await getData.update_password(username, hashedPassword);
+
+                // Redirigir al usuario a la página de inicio de sesión
+                req.flash('success', '¡Contraseña actualizada!');
+                return res.redirect('/login');
+            } else {
+                error.messageForUser = 'El nombre de usuario es incorrecto o no existe';
+                return res.render('error', { error, title: 'Error', viewPath: 'admin_views/error' });
+            }
+        } catch (error) {
+            console.error(error);
+            error.messageForUser = 'Error al recuperar contraseña';
+            return res.render('error', { error, title: 'Error', viewPath: 'admin_views/error' });
+        }
+    } else {
+        error.messageForUser = 'reCAPTCHA: error de validacion';     
+        return res.render('error', { error, title: 'Error', viewPath: 'admin_views/error' });
+    }
+});
 
 module.exports = router;
